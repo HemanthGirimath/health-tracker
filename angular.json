@@ -16,6 +16,7 @@
             "outputPath": "dist/health-challenge-tracker",
             "index": "src/index.html",
             "browser": "src/main.ts",
+        
             "polyfills": [
               "zone.js"
             ],
@@ -23,10 +24,17 @@
             "assets": [
               {
                 "glob": "**/*",
+                "input": "src/assets",
+                "output": "/assets"
+              },
+              {
+                
+                "glob": "**/*",
                 "input": "public"
               }
             ],
             "styles": [
+              "@angular/material/prebuilt-themes/azure-blue.css",
               "src/styles.css"
             ],
             "scripts": [],
@@ -90,6 +98,7 @@
               }
             ],
             "styles": [
+              "@angular/material/prebuilt-themes/azure-blue.css",
               "src/styles.css"
             ],
             "scripts": []

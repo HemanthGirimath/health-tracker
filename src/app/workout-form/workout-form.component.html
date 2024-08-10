@@ -1,0 +1,39 @@
+<div class="formContainer flex justify-center items-center max-w-[90%] md:max-w-[1200px] h-full mx-auto">
+    <!-- Left Card Section -->
+    <div class="w-2/5 h-full">
+       <div class="w-full h-4/5 rounded-lg flex flex-col justify-around items-center"> 
+            <h1 class="items-center">WORKOUT FORM</h1>
+            <img src="../../assets/workout.jpg" alt="image goes here">
+       </div>
+    </div>
+    <!-- Right Form Section -->
+    <div class="w-3/5 flex items-center justify-center">
+        <form [formGroup]="WorkoutForm" class="w-full max-w-md" (ngSubmit)="onSubmit()">
+            <div class="mb-4">
+                <mat-form-field class="w-full">
+                    <mat-label>User Name</mat-label>
+                    <input matInput placeholder="Enter user name." formControlName="userName">
+                </mat-form-field>
+            </div>
+            <div class="mb-4">
+                <mat-form-field class="w-full">
+                    <mat-label>Workout Type</mat-label>
+                    <mat-select formControlName="workoutType">
+                        <mat-option value="running">running</mat-option>
+                        <mat-option value="cycling">cycling</mat-option>
+                        <mat-option value="yoga">yoga</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="mb-4">
+                <mat-form-field class="w-full">
+                    <mat-label>Workout Minutes</mat-label>
+                    <input matInput placeholder="Enter minutes." formControlName="workoutMinutes">
+                </mat-form-field>
+            </div>
+            <div class="flex justify-center">
+                <button [disabled]="!WorkoutForm.valid" mat-fab extended>Submit</button>
+            </div>
+        </form>
+    </div>
+</div>
