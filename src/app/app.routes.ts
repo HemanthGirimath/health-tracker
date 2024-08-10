@@ -4,6 +4,7 @@ import { WorkoutListComponent } from './workout-list/workout-list.component';
 import { WorkoutGraphComponent } from './workout-graph/workout-graph.component';
 
 export const routes: Routes = [
+    {path:'',component:WorkoutFormComponent},
     {path:'workout-form',component:WorkoutFormComponent},
     {path:'workout-list',component:WorkoutListComponent},
     {path:'workout-graph',component:WorkoutGraphComponent}
