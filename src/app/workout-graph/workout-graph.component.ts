@@ -8,6 +8,9 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input'; 
 import {MatButtonModule} from '@angular/material/button';
 import {MatSelectModule} from '@angular/material/select';
+import {  Inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common'
+
 interface Workout {
   type: string;
   minutes: number;
@@ -31,7 +34,7 @@ export class WorkoutGraphComponent implements OnInit {
   selectedUserId: number | null = null;
   workoutChart: Chart | null = null;
 
-  constructor(private server: WorkoutServiceService) {}
+  constructor(private server: WorkoutServiceService,@Inject(PLATFORM_ID) private platformId: Object) {}
 
   ngOnInit(): void {
     this.loadUserData();
@@ -42,13 +45,16 @@ export class WorkoutGraphComponent implements OnInit {
   }
 
   loadUserData(): void {
-    const storedUserData = localStorage.getItem('userData');
-    if (storedUserData) {
-      this.dataSource = JSON.parse(storedUserData);
-      console.log('Loaded user data:', this.dataSource);
-    } else {
-      console.log('No user data found in localStorage');
+    if (isPlatformBrowser(this.platformId)) {
+      const storedUserData = localStorage.getItem('userData');
+      if (storedUserData) {
+        this.dataSource = JSON.parse(storedUserData);
+        console.log('Loaded user data:', this.dataSource);
+      } else {
+        console.log('No user data found in localStorage');
+      }
     }
+  
   }
 
   onUserChange(event: any): void {

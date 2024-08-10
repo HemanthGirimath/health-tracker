@@ -9,6 +9,10 @@ import { MatFormField } from '@angular/material/select';
 import { MatOption } from '@angular/material/select';
 import { MatInput } from '@angular/material/input';
 import { MatLabel } from '@angular/material/input';
+
+import {  Inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common'
+
 @Component({
   selector: 'app-workout-list',
   standalone: true,
@@ -24,21 +28,24 @@ export class WorkoutListComponent  {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  constructor(private server: WorkoutServiceService) {}
+  constructor(private server: WorkoutServiceService,@Inject(PLATFORM_ID) private platformId: Object) {}
 
   ngOnInit(): void {
-    const storedUserData = localStorage.getItem('userData');
-    if (storedUserData) {
-      const userData = JSON.parse(storedUserData);
-      this.dataSource.data = userData.map((user: { name: any; workouts: any[]; }) => ({
-        name: user.name,
-        workouts: user.workouts.map(workout => workout.type).join(', '),
-        numberOfWorkouts: user.workouts.length,
-        totalMinutes: user.workouts.reduce((acc, workout) => acc + workout.minutes, 0)
-      }));
-      this.resultsLength = this.dataSource.data.length;
-      this.extractWorkoutTypes(userData);
+    if (isPlatformBrowser(this.platformId)) {
+      const storedUserData = localStorage.getItem('userData');
+      if (storedUserData) {
+        const userData = JSON.parse(storedUserData);
+        this.dataSource.data = userData.map((user: { name: any; workouts: any[]; }) => ({
+          name: user.name,
+          workouts: user.workouts.map(workout => workout.type).join(', '),
+          numberOfWorkouts: user.workouts.length,
+          totalMinutes: user.workouts.reduce((acc, workout) => acc + workout.minutes, 0)
+        }));
+        this.resultsLength = this.dataSource.data.length;
+        this.extractWorkoutTypes(userData);
+      }
     }
+   
     this.dataSource.filterPredicate = this.createFilter();
   }
 
