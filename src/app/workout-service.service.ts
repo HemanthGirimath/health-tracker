@@ -6,7 +6,7 @@ import { isPlatformBrowser } from '@angular/common';
 })
 export class WorkoutServiceService {
 
-  userData = [
+  private defaultUserData = [
     {
       id: 1,
       name: 'John Doe',
@@ -33,6 +33,8 @@ export class WorkoutServiceService {
     }
   ];
 
+  userData = this.defaultUserData;
+
   constructor(@Inject(PLATFORM_ID) private platformId: Object) { 
     if (isPlatformBrowser(this.platformId)) {
       this.loadUserData();
@@ -40,7 +42,7 @@ export class WorkoutServiceService {
   }
 
   addUserData(newData: any) {
-    const newId = this.userData.length + 1;
+    const newId = this.userData.length ? Math.max(...this.userData.map(user => user.id)) + 1 : 1;
     const newUser = { id: newId, ...newData };
     this.userData.push(newUser);
     if (isPlatformBrowser(this.platformId)) {
@@ -59,6 +61,9 @@ export class WorkoutServiceService {
       const storedData = localStorage.getItem('userData');
       if (storedData) {
         this.userData = JSON.parse(storedData);
+      } else {
+        this.userData = this.defaultUserData;
+        this.saveUserData();
       }
     }
   }
