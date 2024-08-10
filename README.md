@@ -1,5 +1,25 @@
 # HealthChallengeTracker
 
+## Overview
+
+The Health Challenge Tracker is a single-page application (SPA) built using Angular and tailwinds that allows users to input and track their workout activities. The application includes features for adding workout details, displaying a list of workouts, and visualizing workout progress through charts. 
+
+## Features
+
+- **Add User Workout Details:**
+  - Input fields to enter:
+    - User Name
+    - Workout Type
+    - Workout Minutes
+  - Submit button to add the workout details
+
+- **Display Workout List:**
+  - List users and their workout details in a table grid
+  - Search by user name
+  - Filter by workout type
+  - Pagination for more than 5 users
+  - Display workout progress using charts
+    
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.0.1.
 
 ## Development server
