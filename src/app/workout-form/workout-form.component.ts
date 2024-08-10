@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Inject, PLATFORM_ID } from '@angular/core';
 import { FormGroup, FormsModule, ReactiveFormsModule,FormBuilder, Form, Validators } from '@angular/forms'
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input'; 
@@ -7,6 +7,7 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatCardModule} from '@angular/material/card';
 import { Router } from '@angular/router';
 import { WorkoutServiceService } from '../workout-service.service';
+import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-workout-form',
@@ -18,7 +19,7 @@ import { WorkoutServiceService } from '../workout-service.service';
 export class WorkoutFormComponent {
   WorkoutFormComponent: any;
 
-  constructor(private formBuilde:FormBuilder,private router:Router,private server:WorkoutServiceService){
+  constructor(private formBuilde:FormBuilder,private router:Router,private server:WorkoutServiceService,@Inject(PLATFORM_ID) private platformId: Object){
     this.initForm();
 
   }
@@ -39,15 +40,17 @@ export class WorkoutFormComponent {
 
 
   onSubmit() {
-    if (this.WorkoutForm.valid) {
-      const newWorkout = {
-        name: this.WorkoutForm.get('userName')!.value,
-        workouts: [{ 
-          type: this.WorkoutForm.get('workoutType')!.value, 
-          minutes: this.WorkoutForm.get('workoutMinutes')!.value 
-        }]
-      };
-      this.server.addUserData(newWorkout);
+    if (isPlatformBrowser(this.platformId)) {
+      if (this.WorkoutForm.valid) {
+        const newWorkout = {
+          name: this.WorkoutForm.get('userName')!.value,
+          workouts: [{ 
+            type: this.WorkoutForm.get('workoutType')!.value, 
+            minutes: this.WorkoutForm.get('workoutMinutes')!.value 
+          }]
+        };
+        this.server.addUserData(newWorkout);
+      }
     }
     this.router.navigate(['/workout-list']);
   }

@@ -1,15 +1,11 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
 })
 export class WorkoutServiceService {
 
-  constructor() { 
-
-  }
-
- 
   userData = [
     {
       id: 1,
@@ -34,31 +30,37 @@ export class WorkoutServiceService {
         { type: 'Yoga', minutes: 50 },
         { type: 'Cycling', minutes: 40 }
       ]
-    },
-   ]
-   ngOnInit(): void {
-    this.loadUserData();
-  }
+    }
+  ];
 
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) { 
+    if (isPlatformBrowser(this.platformId)) {
+      this.loadUserData();
+    }
+  }
 
   addUserData(newData: any) {
     const newId = this.userData.length + 1;
     const newUser = { id: newId, ...newData };
     this.userData.push(newUser);
-    this.saveUserData();
+    if (isPlatformBrowser(this.platformId)) {
+      this.saveUserData();
+    }
   }
 
   saveUserData() {
-    localStorage.setItem('userData', JSON.stringify(this.userData));
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.setItem('userData', JSON.stringify(this.userData));
+    }
   }
 
-
   loadUserData() {
-    const storedData = localStorage.getItem('userData');
-    if (storedData) {
-      this.userData = JSON.parse(storedData);
+    if (isPlatformBrowser(this.platformId)) {
+      const storedData = localStorage.getItem('userData');
+      if (storedData) {
+        this.userData = JSON.parse(storedData);
+      }
     }
-    return storedData
   }
 
 }
